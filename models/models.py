@@ -83,7 +83,8 @@ class stockpickingloadseries(models.Model):
                                               ('res_id', '=', stockpicking.id)])
         #raise UserError(_("Error:Hay \n%s!") % (stockpicking.id))
         _logger.error(" archivos ajuntos" )
-        ruta ="/var/lib/odoo/filestore/"
+        #ruta ="/var/lib/odoo/filestore/"
+        ruta = "/home/naye/.local/share/Odoo/filestore/"
         count = 0
         for attach in adjuntos:                
           count += 1
