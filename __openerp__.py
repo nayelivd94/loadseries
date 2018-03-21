@@ -3,10 +3,10 @@
     'name': "loadseries",
 
     'summary': """
-        Modulo de carga de series y actualizacion de series""",
+        Modulo de carga de series y actualizacion de series V11""",
 
     'description': """
-       Modulo de carga de series y actualizacion de series
+       Modulo de carga de series y actualizacion de series para Odoo 11
     """,
 
     'author': "Nayeli Jazmin Valencia Diaz",
