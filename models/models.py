@@ -96,6 +96,7 @@ class stockpickingloadseries(models.Model):
                     if nombre in product_lines.name:
                         if len(product_lines.move_line_ids) == 1:
                             product_lines.move_line_ids.lot_name = str(serie).replace(".0","")
+                            product_lines.move_line_ids.qty_done = product_lines.move_line_ids.product_uom_qty
                         elif len(product_lines.move_line_ids) == 0:
                             product_lines.move_line_ids.create({
                                 'picking_id' : self.id,
