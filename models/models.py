@@ -74,7 +74,7 @@ class stockpickingloadseries(models.Model):
           raise UserError(_("Error:Hay \n%s archivos adjuntos, por favor adjunte el archivo o sólo deje el archivo para cargar sus series!") % (len(adjuntos)))
         else:
             db_name = self._cr.dbname
-            destino = ruta+db_name +"/"  + adjuntos.store_fname+".xls";
+            destino = ruta+db_name +"/"  + adjuntos.store_fname;
             #shutil.copy(ruta+db_name +"/"  + adjuntos.store_fname, destino)
             #_logger.info("ARCHIVO COPIADO")
             book = xlrd.open_workbook(destino)
