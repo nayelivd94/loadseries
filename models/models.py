@@ -84,6 +84,7 @@ class stockpickingloadseries(models.Model):
             ncols = sheet.ncols #Numero columnas
             _logger.info( nrows)
             _logger.info( ncols)
+            apagador = False
             if ncols != 2:
                 raise UserError(_(
                     "Error\n La estructura del XLS esta mal ya que no cuenta con las columnas necesiaras para la importacion (nombre del producto, No. de serie/ Lote)!"))
@@ -93,10 +94,11 @@ class stockpickingloadseries(models.Model):
                 nombre = str(sheet.cell_value(i,0))
                 serie = sheet.cell_value(i,1)
                 for product_lines in self.move_lines:
-                    if nombre in product_lines.name:
+                    if nombre.replace('.0','') in product_lines.product_id.code or nombre in product_lines.product_id.name:
                         if len(product_lines.move_line_ids) == 1:
                             product_lines.move_line_ids.lot_name = str(serie).replace(".0","")
                             product_lines.move_line_ids.qty_done = product_lines.move_line_ids.product_uom_qty
+                            apagador = True
                         elif len(product_lines.move_line_ids) == 0:
                             product_lines.move_line_ids.create({
                                 'picking_id' : self.id,
@@ -111,7 +113,9 @@ class stockpickingloadseries(models.Model):
                                 'location_id' : product_lines.location_id.id,
                                 'location_dest_id' : product_lines.location_dest_id.id
                             })
+                            apagador = True
                         else:
+                            apagador = True
                             for line in product_lines.move_line_ids:
                                 if not line.lot_name:
                                     line.lot_name = str(serie).replace(".0","")
@@ -121,6 +125,10 @@ class stockpickingloadseries(models.Model):
                                     if line.lot_name == str(serie).replace(".0",""):
                                         line.qty_done = line.product_uom_qty
                                         break
+            if apagador == False:
+                raise UserError(_(
+                    "Error\n Ningun nombre del producto que viene en el excel fue encontrado, favor de mejor utilizar el codigo de producto y validar que sean identicos."))
+
 
 
 
